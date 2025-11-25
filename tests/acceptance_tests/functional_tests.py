@@ -93,6 +93,6 @@ class FunctionalTests(TestCase):
 
     def test_can_edit_entry(self):
         self.dsl.ensure_existing_entry(name="Old")
-        
+
         self.dsl.update_existing_entry(current_name="Old", new_name="New")
         self.dsl.confirm_register_updated(old_name="Old", new_name="New")

@@ -199,7 +199,7 @@ class Driver:
         self._view_register(name)
 
         self._find_and_click(By.LINK_TEXT, "Edit entry")
-    
+
         heading = self.browser.find_element(By.TAG_NAME, "h1")
         assert heading.text == "Add new entry"
 
