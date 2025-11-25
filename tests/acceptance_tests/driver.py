@@ -193,3 +193,20 @@ class Driver:
         self._navigate_to_registers()
         self._view_register(register)
         self._view_entry(entry_name)
+
+    def update_existing_register(self, name, new_name):
+        self._navigate_to_registers()
+        self._view_register(name)
+
+        self._find_and_click(By.LINK_TEXT, "Edit entry")
+    
+        heading = self.browser.find_element(By.TAG_NAME, "h1")
+        assert heading.text == "Add new entry"
+
+        name_field = self.browser.find_element(By.NAME, "name")
+        assert name_field.get_attribute("value") == name
+
+        name_field.clear()
+        name_field.send_keys(new_name)
+
+        self._find_and_click(By.NAME, "submit")
