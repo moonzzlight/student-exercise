@@ -14,13 +14,14 @@ typical CRUD pattern:
 
 from uuid import UUID
 
-from flask import flash, redirect, render_template, url_for
+from flask import flash, redirect, render_template, url_for, request
 from werkzeug import Response
 
 from app import db
 from app.entry import bp
 from app.entry.forms import EntryForm
 from app.models import Entry
+from app.models import Register
 
 
 @bp.route("/add", methods=["GET", "POST"])
