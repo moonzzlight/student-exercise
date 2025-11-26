@@ -224,15 +224,31 @@ def confirm_entry_deletion(self, alias):
 
         self._find_and_click(By.NAME, "submit")
 
-def confirm_entry_deleted(self, name):
+def confirm_entry_deleted(self, register, name):
     deleted_message = self.browser.find_element(By.XPATH, "//*[contains(text(),'Successfully deleted Entry')]")
     assert deleted_message is not None, "Deleted message not found"
 
     self._navigate_to_registers()
-    self._view_register()
+    self._view_register(register)
 
     try:
         self.browser.find_element(By.XPATH, f"//*[contains(text(), '{name}')]")
         raise AssertionError("Deleted entry still exists")
     except NoSuchElementException:
         pass
+
+def confirm_entry_updated(self, register, old_name, new_name):
+        updated_message = self.browser.find_element(By.XPATH, "//*[contains(text(),'Successfully updated Entry')]")
+        assert updated_message is not None, "Updated message not found"
+
+        self._navigate_to_registers()
+        self._view_register(register)
+
+        try:
+            self.browser.find_element(By.XPATH, f"//*[contains(text(), '{old_name}')]")
+            raise AssertionError("Entry with old name still exists")
+        except NoSuchElementException:
+            pass
+
+        new_entry = self.browser.find_element(By.XPATH, f"//*[contains(text(), '{new_name}')]")
+        assert new_entry is not None, "Entry with new name not found"

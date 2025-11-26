@@ -60,3 +60,41 @@ def view(register_id: UUID, entry_id: UUID) -> str:
 
     # Render the detail page for this register
     return render_template("entry/view.html", entry=entry)
+
+@bp.route("/<uuid:entry_id>/edit", methods=["GET", "POST"])
+def edit(register_id: UUID, entry_id: UUID) -> str | Response:
+    """
+    Edit an existing Entry.
+
+    HTTP Methods:
+    - GET: Pre-populate the form with current entry data
+    - POST: Validate and update the entry if the form is valid
+
+    Parameters:
+    - register_id (UUID): The unique identifier of the Registe to edit
+    - entry_id (UUID): the unique identifier of the Entry to edit
+
+    Returns:
+    - str: Rendered form page if GET or validation fails
+    - Response: Redirect to index on successful edit
+    """
+    # Load the register or show 404 if it doesn't exist
+    register: Register = db.get_or_404(Register, register_id)
+    form = EntryForm(register_id=register_id)
+
+    if request.method == "GET":
+        # Pre-fill the form with current data so user can edit it
+        form.name.data = register.name
+        entry = Entry(name=form.name.data, register_id=register_id)
+    elif form.validate_on_submit():
+        # Copy validated form data into the Register object
+        register.name = form.name.data
+
+        # Persist changes to the database
+        db.session.commit()
+
+        flash("Successfully updated entry", "success")
+        return redirect(url_for("entry.index"))
+
+    # Render the form page for GET requests or failed validation
+    return render_template("entry/edit.html", register=register, entry=entry, form=form)
