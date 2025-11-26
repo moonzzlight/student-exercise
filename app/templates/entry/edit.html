@@ -8,7 +8,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     {{ super() }}
-    <form method="post" action="{{ url_for('entry.edit', register_id=register.id, entry_id=entry_id) }}" novalidate>
+    <form method="post" action="{{ url_for('register.entry.edit', register_id=register.id, entry_id=entry_id) }}" novalidate>
         {{ form.csrf_token}}
         {{ form.name(params={
             'spellcheck': true
@@ -17,7 +17,7 @@
             {{ form.submit(params={
             'preventDoubleClick': true
             }) }}
-            <a class="govuk-link" href="{{ url_for('entry.view', register_id=register.id, entry_id=entry_id) }}">Cancel</a>
+            <a class="govuk-link" href="{{ url_for('register.entry.view', register_id=register.id, entry_id=entry_id) }}">Cancel</a>
         </div>
     </form>
   </div>
