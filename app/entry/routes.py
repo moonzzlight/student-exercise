@@ -19,9 +19,8 @@ from werkzeug import Response
 
 from app import db
 from app.entry import bp
-from app.entry.forms import EntryForm
+from app.entry.forms import EntryForm, EntryDeleteForm
 from app.models import Entry
-from app.models import Register
 
 
 @bp.route("/add", methods=["GET", "POST"])
@@ -80,22 +79,52 @@ def edit(register_id: UUID, entry_id: UUID) -> str | Response:
     - Response: Redirect to index on successful edit
     """
     # Load the register or show 404 if it doesn't exist
-    register: Register = db.get_or_404(Register, register_id)
+    entry = db.one_or_404(db.select(Entry).filter_by(register_id=register_id, id=entry_id))
     form = EntryForm(register_id=register_id)
 
     if request.method == "GET":
         # Pre-fill the form with current data so user can edit it
-        form.name.data = register.name
-        entry = Entry(name=form.name.data, register_id=register_id)
+        form.name.data = entry.name
     elif form.validate_on_submit():
         # Copy validated form data into the Register object
-        register.name = form.name.data
+        entry.name = form.name.data
 
         # Persist changes to the database
         db.session.commit()
 
         flash("Successfully updated entry", "success")
-        return redirect(url_for("entry.index"))
+        return redirect(url_for("register.entry.index"))
 
     # Render the form page for GET requests or failed validation
-    return render_template("entry/edit.html", register=register, entry=entry, form=form)
+    return render_template("entry/edit.html", entry=entry, form=form)
+
+@bp.route("/<uuid:entry_id>/delete", methods=["GET", "POST"])
+def delete(register_id: UUID, entry_id: UUID) -> str | Response:
+    """
+    Delete an existing Entry.
+
+    HTTP Methods:
+    - GET: Show a confirmation page to avoid accidental deletion
+    - POST: Delete the register if confirmation is given
+
+    Parameters:
+    - register_id (UUID): The unique identifier of the register containing the entry to delete
+
+    Returns:
+    - str: Rendered confirmation page if GET or validation fails
+    - Response: Redirect to index on successful deletion
+    """
+    # Load the register to delete or return 404 if not found
+    entry = db.one_or_404(db.select(Entry).filter_by(register_id=register_id, id=entry_id))
+    form = EntryDeleteForm(register_id=register_id)
+
+    if form.validate_on_submit():
+        # Remove the entry from the database
+        db.session.delete(entry)
+        db.session.commit()
+
+        flash("Successfully deleted entry", "success")
+        return redirect(url_for("register.entry.index"))
+
+    # Render the confirmation page if GET request or validation fails
+    return render_template("entry/delete.html", entry=entry, form=form)
