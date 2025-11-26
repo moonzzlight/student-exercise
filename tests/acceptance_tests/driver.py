@@ -135,7 +135,7 @@ class Driver:
     def confirm_deletion_requires_confirmation(self, name):
         confirmation_prompt = self.browser.find_element(
             By.XPATH,
-            f"//*[contains(text(),'Are you sure you want to delete the {name} register/entry?')]",
+            f"//*[contains(text(),'Are you sure you want to delete the {name} register?')]",
         )
         assert confirmation_prompt is not None, "Confirmation prompt not found"
 
@@ -252,3 +252,10 @@ def confirm_entry_updated(self, register, old_name, new_name):
 
         new_entry = self.browser.find_element(By.XPATH, f"//*[contains(text(), '{new_name}')]")
         assert new_entry is not None, "Entry with new name not found"
+
+def confirm_entry_deletion_requires_confirmation(self, entry_name):
+        confirmation_prompt = self.browser.find_element(
+            By.XPATH,
+            f"//*[contains(text(),'Are you sure you want to delete the {entry_name} entry?')]",
+        )
+        assert confirmation_prompt is not None, "Confirmation prompt not found"

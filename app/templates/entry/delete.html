@@ -8,7 +8,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     {{ super() }}
-    <h1 class="govuk-heading-l">Are you sure you want to delete the {{ register.name }} register?</h1>
+    <h1 class="govuk-heading-l">Are you sure you want to delete the {{ entry.name }} entry?</h1>
     <form method="post" action="{{ url_for('register.entry.delete', register_id=entry.register_id, entry_id=entry.id) }}" novalidate>
       {{ form.csrf_token }}
       {{ form.confirm }}

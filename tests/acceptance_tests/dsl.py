@@ -133,3 +133,7 @@ class Dsl:
         alias = self._decode_alias(name)
         entry_alias = self._decode_alias(entry_name)
         self.driver.confirm_entry_deleted(alias, entry_alias)
+
+    def confirm_entry_deletion_requires_confirmation(self, entry_name=DEFAULT_ENTRY_NAME):
+        entry_alias = self._decode_alias(entry_name)
+        self.driver.confirm_entry_deletion_requires_confirmation(entry_alias)
