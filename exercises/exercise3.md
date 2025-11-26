@@ -14,6 +14,7 @@ We need the ability to update a previously created entry - use the tests/impleme
 as a reference.
 
 
+
 ## Requirement: Deleting an entry
 
 We need the ability to delete a previously created entry - use the tests/implementation for deleting a register
