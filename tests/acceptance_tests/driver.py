@@ -194,17 +194,17 @@ class Driver:
         self._view_register(register)
         self._view_entry(entry_name)
 
-    def update_existing_entry(self, name, new_name):
+    def update_existing_entry(self, register, entry_name, new_name):
         self._navigate_to_registers()
-        self._view_register(name)
+        self._view_register(register)
 
         self._find_and_click(By.LINK_TEXT, "Edit entry")
 
         heading = self.browser.find_element(By.TAG_NAME, "h1")
-        assert heading.text == "Add new entry"
+        assert heading.text == "Update entry"
 
         name_field = self.browser.find_element(By.NAME, "name")
-        assert name_field.get_attribute("value") == name
+        assert name_field.get_attribute("value") == entry_name
 
         name_field.clear()
         name_field.send_keys(new_name)
@@ -213,7 +213,7 @@ class Driver:
     
     def delete_existing_entry(self, register, entry_name):
         self._navigate_to_registers()
-        self._view_register(name)
+        self._view_register(register)
         self._view_entry(entry_name)
 
         self._find_and_click(By.LINK_TEXT, "Delete entry")
@@ -224,15 +224,15 @@ def confirm_entry_deletion(self, alias):
 
         self._find_and_click(By.NAME, "submit")
 
-    def confirm_entry_deleted(self, name):
-        deleted_message = self.browser.find_element(By.XPATH, "//*[contains(text(),'Successfully deleted Entry')]")
-        assert deleted_message is not None, "Deleted message not found"
+def confirm_entry_deleted(self, name):
+    deleted_message = self.browser.find_element(By.XPATH, "//*[contains(text(),'Successfully deleted Entry')]")
+    assert deleted_message is not None, "Deleted message not found"
 
-        self._navigate_to_registers()
-        self._view_register()
+    self._navigate_to_registers()
+    self._view_register()
 
-        try:
-            self.browser.find_element(By.XPATH, f"//*[contains(text(), '{name}')]")
-            raise AssertionError("Deleted entry still exists")
-        except NoSuchElementException:
-            pass
+    try:
+        self.browser.find_element(By.XPATH, f"//*[contains(text(), '{name}')]")
+        raise AssertionError("Deleted entry still exists")
+    except NoSuchElementException:
+        pass
