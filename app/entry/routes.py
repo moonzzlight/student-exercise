@@ -61,6 +61,7 @@ def view(register_id: UUID, entry_id: UUID) -> str:
     # Render the detail page for this register
     return render_template("entry/view.html", entry=entry)
 
+
 @bp.route("/<uuid:entry_id>/edit", methods=["GET", "POST"])
 def edit(register_id: UUID, entry_id: UUID) -> str | Response:
     """
@@ -93,10 +94,11 @@ def edit(register_id: UUID, entry_id: UUID) -> str | Response:
         db.session.commit()
 
         flash("Successfully updated entry", "success")
-        return redirect(url_for("register.entry.index"))
+        return redirect(url_for("register.entry.view", register_id=entry.register_id, entry_id=entry_id))
 
     # Render the form page for GET requests or failed validation
     return render_template("entry/edit.html", entry=entry, form=form)
+
 
 @bp.route("/<uuid:entry_id>/delete", methods=["GET", "POST"])
 def delete(register_id: UUID, entry_id: UUID) -> str | Response:
@@ -124,7 +126,9 @@ def delete(register_id: UUID, entry_id: UUID) -> str | Response:
         db.session.commit()
 
         flash("Successfully deleted entry", "success")
-        return redirect(url_for("register.entry.index"))
+        return redirect(url_for("register.view", register_id=entry.register_id))
 
     # Render the confirmation page if GET request or validation fails
     return render_template("entry/delete.html", entry=entry, form=form)
+
+
