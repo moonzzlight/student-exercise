@@ -160,7 +160,7 @@ class Driver:
         except NoSuchElementException:
             pass
 
-    def add_entry_to_register(self, register, entry_name):
+    def add_entry_to_register(self, register, entry_name, price_name):
         self._navigate_to_registers()
         self._view_register(register)
 
@@ -172,9 +172,12 @@ class Driver:
         name_field = self.browser.find_element(By.NAME, "name")
         name_field.send_keys(entry_name)
 
+        price_field = self.browser.find_element(By.NAME, "price")
+        price_field.send_keys(price_name)
+
         self._find_and_click(By.NAME, "submit")
 
-    def confirm_entry_added(self, register, entry_name):
+    def confirm_entry_added(self, register, entry_name, price_name):
         added_message = self.browser.find_element(
             By.XPATH, "//*[contains(text(),'Successfully added entry to register')]"
         )
@@ -194,7 +197,7 @@ class Driver:
         self._view_register(register)
         self._view_entry(entry_name)
 
-    def update_existing_entry(self, register, entry_name, new_name):
+    def update_existing_entry(self, register, entry_name, new_name, price_name, new_price):
         self._navigate_to_registers()
         self._view_register(register)
         self._view_entry(entry_name)
@@ -204,8 +207,15 @@ class Driver:
         name_field = self.browser.find_element(By.NAME, "name")
         assert name_field.get_attribute("value") == entry_name
 
+        price_field = self.browser.find_element(By.NAME, "price")
+        assert price_field.get_attribute("value") == price_name
+
+
         name_field.clear()
         name_field.send_keys(new_name)
+
+        price_field.clear()
+        price_field.send_keys(new_price)
 
         self._find_and_click(By.NAME, "submit")
 
