@@ -223,7 +223,7 @@ class Driver:
         self._find_and_click(By.NAME, "submit")
 
     def confirm_entry_deleted(self, register, name):
-        deleted_message = self.browser.find_element(By.XPATH, "//*[contains(text(),'Successfully deleted entry')]")
+        deleted_message = self.browser.find_element(By.XPATH, "//*[contains(text(), 'Successfully deleted entry')]")
         assert deleted_message is not None, "Deleted message not found"
 
         self._navigate_to_registers()
@@ -258,6 +258,6 @@ class Driver:
         )
         assert confirmation_prompt is not None, "Confirmation prompt not found"
 
-    def confirm_register_empty(self, register):
-        self._navigate_to_registers()
-        self._view_register(register)
+    def confirm_delete_message(self, register):
+        warning_message = self.browser.find_element(By.XPATH, "//*[contains(text(), 'Cannot delete - register is not empty.')]")
+        assert warning_message is not None, "Warning message not found"

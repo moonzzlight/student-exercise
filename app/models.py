@@ -108,6 +108,12 @@ class Entry(Model):
         index=True,  # Database index for faster search
     )
 
+    price: Mapped[int] = mapped_column(
+        nullable=False,
+        unique=False,
+        index=False,
+    )
+
     # Foreign keys
     register_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("register.id", ondelete="RESTRICT"), nullable=False, index=True

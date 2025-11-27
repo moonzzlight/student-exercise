@@ -17,9 +17,9 @@
     {{ super() }}
     <span class="govuk-caption-l">Entry</span>
     <h1 class="govuk-heading-l">{{ entry.name }}</h1>
+    <div class="govuk-body">£{{ entry.price }}</div> 
   </div>
   <div class="govuk-button-group">
-    <div>Successfully updated entry</div>
       {{ govukButton({
         'text': "Edit entry",
         'href': url_for('register.entry.edit', register_id=entry.register_id, entry_id=entry.id)

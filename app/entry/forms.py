@@ -13,7 +13,7 @@ design system used in the application.
 
 from flask_wtf import FlaskForm
 from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovTextInput, GovCheckboxInput
-from wtforms.fields import StringField, SubmitField, BooleanField
+from wtforms.fields import StringField, SubmitField, BooleanField, IntegerField
 from wtforms.validators import InputRequired, ValidationError
 
 from app.models import Entry
@@ -46,6 +46,12 @@ class EntryForm(FlaskForm):
         "Name",
         widget=GovTextInput(),
         validators=[InputRequired(message="Enter a name")],
+    )
+
+    price = IntegerField(
+        "Price",
+        widget=GovTextInput(),
+        validators=[InputRequired(message="Enter house price")]
     )
 
     # A standard GOV.UK-styled submit button.
