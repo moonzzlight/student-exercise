@@ -132,5 +132,3 @@ def delete(register_id: UUID, entry_id: UUID) -> str | Response:
 
     # Render the confirmation page if GET request or validation fails
     return render_template("entry/delete.html", entry=entry, form=form)
-
-

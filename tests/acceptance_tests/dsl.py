@@ -86,29 +86,44 @@ class Dsl:
         alias = self._decode_alias(name)
         self.driver.confirm_register_exists(alias)
 
-    def ensure_existing_entry(self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME, price_name=DEFAULT_ENTRY_PRICE):
+    def ensure_existing_entry(
+        self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME, price_name=DEFAULT_ENTRY_PRICE
+    ):
         self.add_entry_to_register(register=register, entry_name=entry_name, price_name=price_name)
         self.confirm_entry_added(register=register, entry_name=entry_name)
 
-    def add_entry_to_register(self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME, price_name=DEFAULT_ENTRY_PRICE):
+    def add_entry_to_register(
+        self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME, price_name=DEFAULT_ENTRY_PRICE
+    ):
         self.driver.add_entry_to_register(
             register=self._encode_alias(register), entry_name=self._encode_alias(entry_name), price_name=price_name
         )
 
-    def confirm_entry_added(self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME, price_name=DEFAULT_ENTRY_PRICE):
+    def confirm_entry_added(
+        self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME, price_name=DEFAULT_ENTRY_PRICE
+    ):
         self.driver.confirm_entry_added(
             register=self._decode_alias(register), entry_name=self._decode_alias(entry_name), price_name=price_name
         )
 
     def confirm_entry_exists(self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME):
-        self.driver.confirm_entry_exists(register=self._decode_alias(register), entry_name=self._decode_alias(entry_name))
+        self.driver.confirm_entry_exists(
+            register=self._decode_alias(register), entry_name=self._decode_alias(entry_name)
+        )
 
     def confirm_can_view_entry(self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME):
         self.driver.confirm_can_view_entry(
             register=self._encode_alias(register), entry_name=self._encode_alias(entry_name)
         )
 
-    def update_existing_entry(self, register=DEFAULT_REGISTER_NAME, entry_name=DEFAULT_ENTRY_NAME, new_name="", price_name=DEFAULT_ENTRY_PRICE, new_price=1):
+    def update_existing_entry(
+        self,
+        register=DEFAULT_REGISTER_NAME,
+        entry_name=DEFAULT_ENTRY_NAME,
+        new_name="",
+        price_name=DEFAULT_ENTRY_PRICE,
+        new_price=1,
+    ):
         register_name_alias = self._encode_alias(register)
         new_name_alias = self._encode_alias(new_name)
         entry_name_alias = self._encode_alias(entry_name)
@@ -141,7 +156,7 @@ class Dsl:
     def confirm_entry_deletion_requires_confirmation(self, entry_name=DEFAULT_ENTRY_NAME):
         entry_alias = self._decode_alias(entry_name)
         self.driver.confirm_entry_deletion_requires_confirmation(entry_alias)
-    
+
     def confirm_delete_message(self, register=DEFAULT_REGISTER_NAME):
         alias = self._decode_alias(register)
         self.driver.confirm_delete_message(register)

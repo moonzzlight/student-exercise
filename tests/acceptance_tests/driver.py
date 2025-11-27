@@ -210,7 +210,6 @@ class Driver:
         price_field = self.browser.find_element(By.NAME, "price")
         assert price_field.get_attribute("value") == price_name
 
-
         name_field.clear()
         name_field.send_keys(new_name)
 
@@ -269,5 +268,7 @@ class Driver:
         assert confirmation_prompt is not None, "Confirmation prompt not found"
 
     def confirm_delete_message(self, register):
-        warning_message = self.browser.find_element(By.XPATH, "//*[contains(text(), 'Cannot delete - register is not empty.')]")
+        warning_message = self.browser.find_element(
+            By.XPATH, "//*[contains(text(), 'Cannot delete - register is not empty.')]"
+        )
         assert warning_message is not None, "Warning message not found"

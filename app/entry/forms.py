@@ -48,11 +48,7 @@ class EntryForm(FlaskForm):
         validators=[InputRequired(message="Enter a name")],
     )
 
-    price = IntegerField(
-        "Price",
-        widget=GovTextInput(),
-        validators=[InputRequired(message="Enter house price")]
-    )
+    price = IntegerField("Price", widget=GovTextInput(), validators=[InputRequired(message="Enter house price")])
 
     # A standard GOV.UK-styled submit button.
     submit: SubmitField = SubmitField("Save", widget=GovSubmitInput())
